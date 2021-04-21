@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 
 
 class Category(models.Model):
+    def __str__(self):
+        return self.name
+
     STATUS_NORMAL = 1
     STATUS_DELETE = 0
     STATUS_ITEMS = (
@@ -23,6 +26,9 @@ class Category(models.Model):
 
 
 class Tag(models.Model):
+    def __str__(self):
+        return self.name
+
     STATUS_NORMAL = 1
     STATUS_DELETE = 0
     STATUS_ITEMS = (
@@ -40,6 +46,9 @@ class Tag(models.Model):
 
 
 class Post(models.Model):
+    def __str__(self):
+        pass
+
     STATUS_NORMAL = 1
     STATUS_DELETE = 0
     STATUS_DRAFT = 2

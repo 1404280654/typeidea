@@ -4,6 +4,9 @@ from blog.models import Post
 
 
 class Comment(models.Model):
+    def __str__(self):
+        pass
+
     STATUS_NORMAL = 1
     STATUS_DELETE = 0
     STATUS_ITEMS = (

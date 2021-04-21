@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 
 
 class Link(models.Model):
+    def __str__(self):
+        pass
+
     STATUS_NORMAL = 1
     STATUS_DELETE = 0
     STATUS_ITEMS = (
@@ -22,6 +25,9 @@ class Link(models.Model):
 
 
 class SiderBar(models.Model):
+    def __str__(self):
+        pass
+
     STATUS_SHOW = 1
     STATUS_HIDE = 0
     STATUS_ITEMS = (
