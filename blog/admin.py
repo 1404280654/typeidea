@@ -92,12 +92,12 @@ class PostAdmin(BaseOwnerAdmin):
            ),
         }),
         ('额外信息', {
-            'classes': ('collapse',),
-            'fields': ('tag',),
+            'classes': ('wide',),
+            'fields': ('tags',),
         }),
     )
     # filter_horizontal = ('tag', )
-    # filter_vertical = ('tag', )
+    # filter_vertical = ("tags",)
 
     def operator(self, obj):
         return format_html(

@@ -15,9 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url
 from typeidea.custom_site import custom_site
+from blog.views import *
+from config.views import *
 
 urlpatterns = [
+    url(r'^$', post_list, name='index'),
+    url(r'^category/(?P<category_id>\d+)$', post_list, name="category-list"),
+    url(r'^tag/(?P<tag_id>\d+)$', post_list, name="tag-list"),
+    url(r'^post/(?P<post_id>\d+).html$', post_detail, name="post-detail"),
+    url(r'^links$', links, name="links"),
+
+
     path('admin/', admin.site.urls),
     path('super_admin/', custom_site.urls),
 ]
