@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {%extends "./base.html"%}
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{% block title %}  {{post.title}}  {% endblock %}</title>
 </head>
 <body>
-{%extends "./base.html"%}
-{% block title %}  {% post.title %}  {% endblock %}
-
 {% block main %}
     {% if post %}
     <h1>{{post.title}}</h1>

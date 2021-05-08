@@ -10,3 +10,6 @@ class CustomSite(AdminSite):
 
 
 custom_site = CustomSite(name='cus_admin')
+
+
+
