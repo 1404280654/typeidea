@@ -1,17 +1,14 @@
+from django.db.models import Q
 from django.shortcuts import render
 from django.http import HttpResponse
 from blog.models import Tag, Post, Category
 from config.models import SiderBar
 from django.views.generic import ListView, DetailView
 from django.shortcuts import get_object_or_404
-
+from comment.forms import CommentFor
+from comment.models import Comment
 
 # class-based view 写法
-class IndexView(ListView):
-    queryset = Post.latest_post()
-    paginate_by = 5
-    context_object_name = 'post_list'
-    template_name = 'blog/list.html'
 
 
 class CommonViewMixin:
@@ -21,10 +18,14 @@ class CommonViewMixin:
             'sidebars': SiderBar.get_all(),
         })
         context.update(Category.get_navs())
-        print(context)
-        print(type(context))
-        print(type(context["sidebars"][0]))
         return context
+
+
+class IndexView(CommonViewMixin, ListView):
+    queryset = Post.latest_post()
+    paginate_by = 5
+    context_object_name = 'post_list'
+    template_name = 'blog/list.html'
 
 
 class CategoryView(IndexView):
@@ -67,9 +68,39 @@ class PostDetailView(CommonViewMixin, DetailView):
     context_object_name = 'post'
     pk_url_kwarg = 'post_id'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'comment_form': CommentFor,
+            'comment_list': Comment.get_by_target(self.request.path),
+        })
+        return context
+
+class SearchView(IndexView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context.update({
+            'keyword': self.request.GET.get('keyword', '')
+        })
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        print(queryset)
+        keyword = self.request.GET.get('keyword')
+        if not keyword:
+            return queryset
+        return queryset.filter(Q(title__icontains=keyword) | Q(desc__icontains=keyword))
 
 
-# function VIEW写法
+class AuthorView(IndexView):
+   def get_queryset(self):
+       queryset = super().get_queryset()
+       author_id = self.kwargs.get('owner_id')
+       return queryset.filter(owner_id=author_id)
+
+# -------------------------------------------function VIEW写
+
 def post_list(request, category_id=None, tag_id=None):
     """
     :param request:
