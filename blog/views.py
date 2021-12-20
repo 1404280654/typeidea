@@ -9,6 +9,7 @@ from comment.forms import CommentFor
 from comment.models import Comment
 
 # class-based view 写法
+# 这些写法都老了
 
 
 class CommonViewMixin:
